@@ -2,6 +2,14 @@
 
 echo "Starting the main script..."
 
+docker build -t sd_nginx ./nginx
+
+echo "Docker image sd_nginx has been built."
+
+docker build -t sd_postgres ./postgres_db
+
+echo "Docker image sd_postgres has been built."
+
 echo "Deploying Client..."
 bash ./client/deploy.sh sd_client
 
