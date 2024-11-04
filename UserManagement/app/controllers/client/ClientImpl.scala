@@ -19,49 +19,49 @@ class ClientImpl @Inject()(ws: WSClient)(implicit ec: ExecutionContext) {
 
   def streamUser(userId: UUID, email: String): Future[Int] = getStatus {
     clients.map { client =>
-      val url = f"https://sd.$client.bchportal.net/user/create"
+      val url = f"https://sd.$client.bchportal.com/user/create"
       makeRequest(url, Headers("ApiKey" -> apiKey), Seq("userId" -> userId.toString, "email" -> email))
     }
   }
 
   def streamUpdatedUser(userId: UUID, newEmail: String): Future[Int] = getStatus {
     clients.map { client =>
-      val url = f"https://sd.$client.bchportal.net/user/update"
+      val url = f"https://sd.$client.bchportal.com/user/update"
       makeRequest(url, Headers("ApiKey" -> apiKey), Seq("userId" -> userId.toString, "newEmail" -> newEmail))
     }
   }
 
   def streamUpdatedUser(oldEmail: String, newEmail: String): Future[Int] = getStatus {
     clients.map { client =>
-      val url = f"https://sd.$client.bchportal.net/admin-user/update"
+      val url = f"https://sd.$client.bchportal.com/admin-user/update"
       makeRequest(url, Headers("ApiKey" -> apiKey), Seq("oldEmail" -> oldEmail, "newEmail" -> newEmail))
     }
   }
 
   def streamDeletedUser(userId: UUID): Future[Int] = getStatus {
     clients.map { client =>
-      val url = f"https://sd.$client.bchportal.net/user/delete"
+      val url = f"https://sd.$client.bchportal.com/user/delete"
       makeRequest(url, Headers("ApiKey" -> apiKey), Seq("userId" -> userId.toString))
     }
   }
 
   def streamDeletedUser(email: String): Future[Int] = getStatus {
     clients.map { client =>
-      val url = f"https://sd.$client.bchportal.net/admin-user/delete"
+      val url = f"https://sd.$client.bchportal.com/admin-user/delete"
       makeRequest(url, Headers("ApiKey" -> apiKey), Seq("email" -> email))
     }
   }
 
   def streamToken(token: String): Future[Int] = getStatus {
     clients.map { client =>
-      val url = f"https://sd.$client.bchportal.net/token/update"
+      val url = f"https://sd.$client.bchportal.com/token/update"
       makeRequest(url, Headers("ApiKey" -> apiKey), Seq("token" -> token))
     }
   }
 
   def setNullToken(userId: UUID): Future[Int] = getStatus {
     clients.map { client =>
-      val url = f"https://sd.$client.bchportal.net/token/set-null"
+      val url = f"https://sd.$client.bchportal.com/token/set-null"
       makeRequest(url, Headers("ApiKey" -> apiKey), Seq("userId" -> userId.toString))
     }
   }
