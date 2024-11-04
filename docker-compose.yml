@@ -1,0 +1,99 @@
+version: '3'
+
+services:
+  # DBs
+  users_db:
+    image: sd_postgres
+    container_name: users_db
+    environment:
+      POSTGRES_USER: byke
+      POSTGRES_PASSWORD: byke
+      POSTGRES_DB: sd_users
+    ports:
+      - "5401:5432"
+    volumes:
+      - ./db_data/users_data:/var/lib/postgresql/data
+
+  devices_db:
+    image: sd_postgres
+    container_name: devices_db
+    environment:
+      POSTGRES_USER: byke
+      POSTGRES_PASSWORD: byke
+      POSTGRES_DB: sd_devices
+    ports:
+      - "5402:5432"
+    volumes:
+      - ./db_data/devices_data:/var/lib/postgresql/data
+
+  chat_db:
+    image: sd_postgres
+    container_name: chat_db
+    environment:
+      POSTGRES_USER: byke
+      POSTGRES_PASSWORD: byke
+      POSTGRES_DB: sd_chat
+    ports:
+      - "5403:5432"
+    volumes:
+      - ./db_data/chat_data:/var/lib/postgresql/data
+  
+  # Microservices
+  client:
+    image: sd_client:latest
+    container_name: sd_client
+
+  users_server:
+    image: sd_users:latest
+    container_name: sd_users
+    environment:
+      - PORT=7021
+
+      - DB_HOST=users_db
+      - DB_PORT=5432
+      - DB_NAME=sd_users
+      - DB_USERNAME=byke
+      - DB_PASSWORD=byke
+
+  devices_server:
+    image: sd_devices:latest
+    container_name: sd_devices
+    environment:
+      - PORT=7022
+
+      - DB_HOST=devices_db
+      - DB_PORT=5432
+      - DB_NAME=sd_devices
+      - DB_USERNAME=byke
+      - DB_PASSWORD=byke
+
+  chat_server:
+    image: sd_chat:latest
+    container_name: sd_chat
+    environment:
+      - PORT=7024
+
+      - DB_HOST=chat_db
+      - DB_PORT=5432
+      - DB_NAME=sd_chat
+      - DB_USERNAME=byke
+      - DB_PASSWORD=byke
+
+  # Reverse Proxi
+  nginx:
+    image: sd_nginx
+    container_name: sd_nginx
+    ports:
+      - "443:443"
+    restart: unless-stopped
+
+# DBs volumes
+volumes:
+  users_data:
+    driver: local
+
+  devices_data:
+    driver: local
+
+  chat_data:
+    driver: local
