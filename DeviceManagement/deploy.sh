@@ -9,6 +9,6 @@ IMAGE_NAME=$1
 
 sbt clean compile stage
 
-docker build -t "$IMAGE_NAME" .
+sudo docker build -t "$IMAGE_NAME" .
 
 echo "Docker image '$IMAGE_NAME' has been built."
